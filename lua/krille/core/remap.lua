@@ -5,31 +5,28 @@ local keymap = vim.keymap -- for conciseness
 -- not needed with nvim-tree
 -- vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
-vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Able to move highlighted section" })
+keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Able to move highlighted section" })
 
+keymap.set("n", "J", "mzJ`z", { desc = "Keeps cursor inplace when Joining" })
+keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Keeps cursor inplace when jumping" })
+keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Keeps cursor inplace when jumping" })
+keymap.set("n", "n", "nzzzv", { desc = "Keeps search term in middle" })
+keymap.set("n", "N", "Nzzzv", { desc = "Keeps search term in middle" })
 
-vim.keymap.set("n", "J", "mzJ`z")
-vim.keymap.set("n", "<C-d>", "<C-d>zz")
-vim.keymap.set("n", "<C-u>", "<C-u>zz")
-vim.keymap.set("n", "n", "nzzzv")
-vim.keymap.set("n", "N", "Nzzzv")
+keymap.set("x", "<leader>p", [["_dP]], { desc = "Paste over highlighted section without adding to registry" })
 
-vim.keymap.set("x", "<leader>p", [["_dP]])
+keymap.set({ "n", "v" }, "<leader>y", [["+y]], { desc = "Yank to clipboard" })
+keymap.set("n", "<leader>Y", [["+Y]], { desc = "Yank to clipboard" })
 
-vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
-vim.keymap.set("n", "<leader>Y", [["+Y]])
+keymap.set({ "n", "v" }, "<leader>d", [["_d]], { desc = "Delete to clipboard" })
 
-vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
+keymap.set("i", "<C-c>", "<Esc>", { desc = "C-c works as <Esc> in insertmode" })
 
-vim.keymap.set("i", "<C-c>", "<Esc>")
+-- keymap.set("n", "<leader>f", vim.lsp.buf.format)     crash with find files in telescope
 
--- vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)     crash with find files in telescope
-
--- vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])    crash with split window!!!
-vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
-
-
+-- keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])    crash with split window!!!
+keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
 
 keymap.set("n", "<leader>nh", ":nohl<CR>", { desc = "Clear search highlights" })
 
