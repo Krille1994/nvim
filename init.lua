@@ -1,12 +1,7 @@
 require("core.options")
 require("core.remap")
 require("core.snippets")
--- require("krille.lazy")
--- require 'core.options' -- Load general options
--- require 'core.keymaps' -- Load general keymaps
--- require 'core.snippets' -- Custom code snippets
 
--- Set up the Lazy plugin manager
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
 	local lazyrepo = "https://github.com/folke/lazy.nvim.git"
@@ -19,8 +14,9 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Set up plugins
 require("lazy").setup({
-	require("plugins.lsp.lspconfig"),
-	require("plugins.lsp.mason"),
+	-- require("plugins.lsp.lspconfig"),
+	-- require("plugins.lsp.mason"),
+	require("plugins.lsp"),
 	require("plugins.colorscheme"),
 	require("plugins.bufferline"),
 	require("plugins.comment"),
@@ -38,6 +34,8 @@ require("lazy").setup({
 	require("plugins.which-key"),
 	require("plugins.misc"),
 })
+
+require("core.theme").setup()
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

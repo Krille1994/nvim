@@ -4,23 +4,28 @@ return {
 	build = ":TSUpdate",
 	dependencies = {
 		"windwp/nvim-ts-autotag",
+		{
+			"nvim-treesitter/nvim-treesitter-context",
+			opts = {
+				enable = true, -- Enable the plugin
+				max_lines = 3, -- Limit the context window to 3 lines
+				trim_scope = "outer", -- Remove outer context if max_lines is exceeded
+				mode = "cursor", -- Show context for the line under the cursor
+				separator = nil, -- You can set this to "─" if you want a visual split
+			},
+		},
 	},
 	config = function()
-		-- import nvim-treesitter plugin
 		local treesitter = require("nvim-treesitter.configs")
 
-		-- configure treesitter
-		treesitter.setup({ -- enable syntax highlighting
+		treesitter.setup({
 			highlight = {
 				enable = true,
 			},
-			-- enable indentation
 			indent = { enable = true },
-			-- enable autotagging (w/ nvim-ts-autotag plugin)
 			autotag = {
 				enable = true,
 			},
-			-- ensure these language parsers are installed
 			ensure_installed = {
 				"json",
 				"javascript",
