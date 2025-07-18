@@ -7,6 +7,7 @@ local keymap = vim.keymap -- for conciseness
 
 -- delete single character without copying into register
 keymap.set("n", "x", '"_x', opts)
+keymap.set("n", "c", '"_c', opts)
 
 keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Able to move highlighted section" })
 keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Able to move highlighted section" })
