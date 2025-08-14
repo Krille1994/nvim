@@ -16,7 +16,6 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
 	-- require("plugins.lsp.lspconfig"),
 	-- require("plugins.lsp.mason"),
-	require("plugins.lsp"),
 	require("plugins.colorscheme"),
 	require("plugins.bufferline"),
 	require("plugins.comment"),
@@ -32,8 +31,12 @@ require("lazy").setup({
 	require("plugins.undotree"),
 	require("plugins.vim-maximizer"),
 	require("plugins.which-key"),
+	require("plugins.markdown-preview"),
 	require("plugins.misc"),
+	require("plugins.lsp"),
 })
+require("custom.terminal")
+require("custom.quick-ng")
 
 require("core.theme").setup()
 

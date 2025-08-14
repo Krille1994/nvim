@@ -2,7 +2,7 @@
 
 -- Prevent LSP from overwriting treesitter color settings
 -- https://github.com/NvChad/NvChad/issues/1907
-vim.highlight.priorities.semantic_tokens = 95 -- Or any number lower than 100, treesitter's priority level
+vim.hl.priorities.semantic_tokens = 95 -- Or any number lower than 100, treesitter's priority level
 
 -- Appearance of diagnostics
 vim.diagnostic.config({
@@ -33,4 +33,25 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 	group = highlight_group,
 	pattern = "*",
+})
+
+-- Save and restore folds automatically
+vim.api.nvim_create_autocmd("BufWinLeave", {
+	pattern = "*",
+	callback = function()
+		local file = vim.api.nvim_buf_get_name(0)
+		if file ~= "" and vim.bo.buftype == "" then
+			vim.cmd("silent! mkview")
+		end
+	end,
+})
+
+vim.api.nvim_create_autocmd("BufWinEnter", {
+	pattern = "*",
+	callback = function()
+		local file = vim.api.nvim_buf_get_name(0)
+		if file ~= "" and vim.bo.buftype == "" then
+			vim.cmd("silent! loadview")
+		end
+	end,
 })
