@@ -7,11 +7,11 @@ return {
 		{
 			"nvim-treesitter/nvim-treesitter-context",
 			opts = {
-				enable = true, -- Enable the plugin
-				max_lines = 3, -- Limit the context window to 3 lines
-				trim_scope = "outer", -- Remove outer context if max_lines is exceeded
-				mode = "cursor", -- Show context for the line under the cursor
-				separator = nil, -- You can set this to "─" if you want a visual split
+				enable = true,
+				max_lines = 3,
+				trim_scope = "outer",
+				mode = "cursor",
+				separator = nil,
 			},
 		},
 	},

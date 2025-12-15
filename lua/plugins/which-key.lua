@@ -5,13 +5,13 @@ return { -- Useful plugin to show you pending keybinds.
 		config = function() -- This is the function that runs, AFTER loading
 			require("which-key").setup()
 			require("which-key").add({
-				{ "<leader>c", group = "[C]ode", mode = { "n", "x" } },
-				{ "<leader>d", group = "[D]ocument" },
-				{ "<leader>r", group = "[R]ename" },
-				{ "<leader>s", group = "[S]earch" },
+				{ "<leader>e", group = "File [E]xplorer" },
+				{ "<leader>b", group = "[B]ackground" },
+				{ "<leader>s", group = "[S]plit" },
 				{ "<leader>w", group = "[W]orkspace" },
-				{ "<leader>t", group = "[T]oggle" },
-				{ "<leader>h", group = "Git [H]unk", mode = { "n", "v" } },
+				{ "<leader>f", group = "[F]ind" },
+				{ "<leader>n", group = "[N]o" },
+				{ "<leader>x", group = "[X] Trouble" },
 			})
 		end,
 	},
