@@ -1,8 +1,8 @@
-return { -- Useful plugin to show you pending keybinds.
+return {
 	{
 		"folke/which-key.nvim",
-		event = "VimEnter", -- Sets the loading event to 'VimEnter'
-		config = function() -- This is the function that runs, AFTER loading
+		event = "VimEnter",
+		config = function()
 			require("which-key").setup()
 			require("which-key").add({
 				{ "<leader>e", group = "File [E]xplorer" },
@@ -12,6 +12,9 @@ return { -- Useful plugin to show you pending keybinds.
 				{ "<leader>f", group = "[F]ind" },
 				{ "<leader>n", group = "[N]o" },
 				{ "<leader>x", group = "[X] Trouble" },
+				{ "<leader>c", group = "[C]ode" },
+				{ "<leader>m", group = "[M]essages" },
+				{ "<leader>g", group = "[G]it" },
 			})
 		end,
 	},
