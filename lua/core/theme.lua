@@ -1,4 +1,3 @@
--- lua/core/theme.lua
 local M = {}
 
 local themes = {
@@ -40,7 +39,6 @@ local function apply_theme(name)
 		end,
 	})
 end
-
 
 function M.setup()
 	for i = 1, #themes do

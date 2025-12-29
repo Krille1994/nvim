@@ -1,6 +1,8 @@
 require("core.options")
 require("core.remap")
 require("core.snippets")
+require("core.diagnostics")
+require("core.lsp_keymaps")
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -24,7 +26,8 @@ require("lazy").setup({
 	require("plugins.linting"),
 	require("plugins.lualine"),
 	require("plugins.nvim-cmp"),
-	require("plugins.nvim-tree"),
+	-- require("plugins.nvim-tree"),
+	require("plugins.neotree"),
 	require("plugins.telescope"),
 	require("plugins.treesitter"),
 	require("plugins.trouble"),
@@ -34,6 +37,9 @@ require("lazy").setup({
 	require("plugins.markdown-preview"),
 	require("plugins.misc"),
 	require("plugins.lsp"),
+	require("plugins.notify"),
+	require("plugins.gitsigns"),
+	require("plugins.hardtime"),
 })
 require("custom.terminal")
 require("custom.quick-ng")

@@ -18,7 +18,7 @@ keymap.set("x", "<leader>p", [["_dP]], { desc = "Paste over highlighted section 
 
 keymap.set({ "n", "v" }, "<leader>y", [["+y]], { desc = "Yank to clipboard" })
 
-keymap.set({ "n", "v" }, "<leader>D", [["_d]], { desc = "Delete to clipboard" })
+-- keymap.set({ "n", "v" }, "<leader>D", [["_d]], { desc = "Delete to clipboard" })
 
 keymap.set("i", "<C-c>", "<Esc>", { desc = "C-c works as <Esc> in insertmode" })
 
