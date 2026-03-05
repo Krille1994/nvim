@@ -2,7 +2,7 @@ require("core.options")
 require("core.remap")
 require("core.snippets")
 require("core.diagnostics")
-require("core.lsp_keymaps")
+-- require("core.lsp_keymaps")
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
