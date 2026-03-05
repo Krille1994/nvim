@@ -52,4 +52,30 @@ return {
       },
     }
   end,
+
+  pyright = {
+    root_markers = { "pyproject.toml", ".git" },
+    settings = {
+      python = {
+        analysis = {
+          autoSearchPaths = true,
+          useLibraryCodeForTypes = true,
+          diagnosticSeverityOverrides = {
+            reportArgumentType = "none",
+            reportAttributeAccessIssue = "none",
+          },
+        },
+      },
+    },
+    on_init = function(client)
+      local root = vim.fs.root(0, { "pyproject.toml", ".git" })
+      if root then
+        local py = root .. "/.venv/bin/python"
+        if vim.fn.executable(py) == 1 then
+          client.config.settings.python.pythonPath = py
+        end
+      end
+    end,
+  },
+
 }
