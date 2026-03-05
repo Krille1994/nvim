@@ -16,5 +16,6 @@ require("mason-lspconfig").setup({
 		"omnisharp",
 		"bashls",
 		"yamlls",
+		"pyright",
 	},
 })
