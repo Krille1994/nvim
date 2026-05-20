@@ -1,50 +1,44 @@
-local keymap = vim.keymap
 vim.api.nvim_create_autocmd("LspAttach", {
-	group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+	group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true }),
 	callback = function(ev)
-		local opts = { buffer = ev.buf, silent = true }
+		local client = vim.lsp.get_client_by_id(ev.data.client_id)
+		if not client then
+			return
+		end
 
-		opts.desc = "Show LSP references"
-		keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", opts)
+		local map = function(mode, lhs, rhs, desc)
+			vim.keymap.set(mode, lhs, rhs, { buffer = ev.buf, silent = true, desc = desc })
+		end
 
-		opts.desc = "Go to declaration"
-		keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+		-- NOTE: Completion is handled by blink.cmp, not built-in vim.lsp.completion
 
-		opts.desc = "Show LSP definition"
-		keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+		-- Navigation
+		map("n", "gd", vim.lsp.buf.definition, "Go to definition")
+		map("n", "gD", vim.lsp.buf.declaration, "Go to declaration")
 
-		opts.desc = "Show LSP implementations"
-		keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts)
+		-- Override built-in defaults with Telescope pickers
+		map("n", "grr", "<cmd>Telescope lsp_references<CR>", "References (Telescope)")
+		map("n", "gri", "<cmd>Telescope lsp_implementations<CR>", "Implementations (Telescope)")
+		map("n", "grt", "<cmd>Telescope lsp_type_definitions<CR>", "Type definitions (Telescope)")
+		map("n", "gO", "<cmd>Telescope lsp_document_symbols<CR>", "Document symbols (Telescope)")
 
-		opts.desc = "Show LSP type definitions"
-		keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts)
+		-- Actions (grn/gra/K/Ctrl-S are fine as built-in defaults)
+		map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "Code actions")
+		map("n", "<leader>rn", vim.lsp.buf.rename, "Rename symbol")
 
-		opts.desc = "See available code actions"
-		keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
+		-- Diagnostics ([d and ]d are built-in defaults)
+		map("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", "Buffer diagnostics")
+		map("n", "<leader>d", vim.diagnostic.open_float, "Line diagnostics")
 
-		opts.desc = "Smart rename"
-		keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+		-- Inlay hints toggle
+		if client:supports_method("textDocument/inlayHint") then
+			map("n", "<leader>ch", function()
+				local enabled = vim.lsp.inlay_hint.is_enabled({ bufnr = ev.buf })
+				vim.lsp.inlay_hint.enable(not enabled, { bufnr = ev.buf })
+			end, "Toggle inlay hints")
+		end
 
-		opts.desc = "Show buffer diagnostics"
-		keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts)
-
-		opts.desc = "Show line diagnostics"
-		keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts)
-
-		opts.desc = "Go to previous diagnostic"
-		keymap.set("n", "[d", function()
-			vim.diagnostic.jump({ count = -1, float = true })
-		end, opts)
-		--
-		opts.desc = "Go to next diagnostic"
-		keymap.set("n", "]d", function()
-			vim.diagnostic.jump({ count = 1, float = true })
-		end, opts)
-
-		opts.desc = "Show documentation for what is under cursor"
-		keymap.set("n", "K", vim.lsp.buf.hover, opts)
-
-		opts.desc = "Restart LSP"
-		keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts)
+		-- Misc
+		map("n", "<leader>rs", "<cmd>lsp restart<CR>", "Restart LSP")
 	end,
 })

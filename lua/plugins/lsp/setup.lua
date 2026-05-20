@@ -1,8 +1,6 @@
-local capabilities = require("cmp_nvim_lsp").default_capabilities()
-
-vim.lsp.config("*", {
-	capabilities = capabilities,
-})
+-- Configure servers BEFORE mason-lspconfig enables them.
+-- mason-lspconfig v2 auto-calls vim.lsp.enable() for installed servers,
+-- so we only need to set config overrides here.
 
 local servers = require("plugins.lsp.servers")
 
@@ -12,5 +10,3 @@ for name, opts in pairs(servers) do
 	end
 	vim.lsp.config(name, opts)
 end
-
-vim.lsp.enable(vim.tbl_keys(servers))

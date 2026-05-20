@@ -1,17 +1,18 @@
+local sev = vim.diagnostic.severity
+
 vim.diagnostic.config({
 	severity_sort = true,
 	float = { border = "rounded", source = true },
 	update_in_insert = false,
-	underline = { severity = vim.diagnostic.severity.ERROR },
-	signs = vim.g.have_nerd_font and {
+	underline = { severity = sev.ERROR },
+	signs = {
 		text = {
-			[vim.diagnostic.severity.ERROR] = "󰅚 ",
-			[vim.diagnostic.severity.WARN] = "󰀪 ",
-			[vim.diagnostic.severity.INFO] = "󰋽 ",
-			[vim.diagnostic.severity.HINT] = "󰌶 ",
+			[sev.ERROR] = "󰅚 ",
+			[sev.WARN] = "󰀪 ",
+			[sev.INFO] = "󰋽 ",
+			[sev.HINT] = "󰌶 ",
 		},
-	} or {},
-
+	},
 	virtual_text = {
 		source = "if_many",
 		spacing = 2,

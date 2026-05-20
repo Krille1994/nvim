@@ -2,34 +2,58 @@ vim.g.mapleader = " "
 
 local keymap = vim.keymap
 
+-- Don't yank on x/c
 keymap.set("n", "x", '"_x')
 keymap.set("n", "c", '"_c')
 
-keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Able to move highlighted section" })
-keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Able to move highlighted section" })
+-- Move highlighted lines
+keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
+keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
 
-keymap.set("n", "J", "mzJ`z", { desc = "Keeps cursor inplace when Joining" })
-keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Keeps cursor inplace when jumping" })
-keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Keeps cursor inplace when jumping" })
-keymap.set("n", "n", "nzzzv", { desc = "Keeps search term in middle" })
-keymap.set("n", "N", "Nzzzv", { desc = "Keeps search term in middle" })
+-- Keep cursor stable
+keymap.set("n", "J", "mzJ`z", { desc = "Join lines (cursor stays)" })
+keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Half-page down (centered)" })
+keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Half-page up (centered)" })
+keymap.set("n", "n", "nzzzv", { desc = "Next search (centered)" })
+keymap.set("n", "N", "Nzzzv", { desc = "Prev search (centered)" })
 
-keymap.set("x", "<leader>p", [["_dP]], { desc = "Paste over highlighted section without adding to registry" })
+-- Paste over selection without yanking
+keymap.set("x", "<leader>p", [["_dP]], { desc = "Paste over selection (no yank)" })
 
+-- Yank to system clipboard
 keymap.set({ "n", "v" }, "<leader>y", [["+y]], { desc = "Yank to clipboard" })
 
--- keymap.set({ "n", "v" }, "<leader>D", [["_d]], { desc = "Delete to clipboard" })
+-- Ctrl-C as Escape in insert mode
+keymap.set("i", "<C-c>", "<Esc>", { desc = "Ctrl-C as Escape" })
 
-keymap.set("i", "<C-c>", "<Esc>", { desc = "C-c works as <Esc> in insertmode" })
+-- Make file executable
+keymap.set("n", "<leader>xx", "<cmd>!chmod +x %<CR>", { silent = true, desc = "Make file executable" })
 
-keymap.set("n", "<leader>xx", "<cmd>!chmod +x %<CR>", { silent = true })
-
+-- Clear search highlights
 keymap.set("n", "<leader>nh", ":nohl<CR>", { desc = "Clear search highlights" })
 
-keymap.set("n", "<leader>sv", "<C-w>v", { desc = "Split window vertically" })
-keymap.set("n", "<leader>sh", "<C-w>s", { desc = "Split window horizontally" })
-keymap.set("n", "<leader>se", "<C-w>=", { desc = "Make splits equal size" })
-keymap.set("n", "<leader>sx", "<cmd>close<CR>", { desc = "Close current split" })
+-- Split management
+keymap.set("n", "<leader>sv", "<C-w>v", { desc = "Split vertically" })
+keymap.set("n", "<leader>sh", "<C-w>s", { desc = "Split horizontally" })
+keymap.set("n", "<leader>se", "<C-w>=", { desc = "Equalize splits" })
+keymap.set("n", "<leader>sx", "<cmd>close<CR>", { desc = "Close split" })
 
-keymap.set("n", "<Tab>", ":bnext<CR>", { desc = "Go to next buffer", noremap = true, silent = true })
-keymap.set("n", "<S-Tab>", ":bprevious<CR>", { desc = "Go to next buffer", noremap = true, silent = true })
+-- Maximize/restore split (replaces vim-maximizer plugin)
+local maximized = false
+keymap.set("n", "<leader>sm", function()
+	if maximized then
+		vim.cmd("wincmd =")
+		maximized = false
+	else
+		vim.cmd("wincmd _")
+		vim.cmd("wincmd |")
+		maximized = true
+	end
+end, { desc = "Maximize/restore split" })
+
+-- Buffer navigation
+keymap.set("n", "<Tab>", ":bnext<CR>", { desc = "Next buffer", noremap = true, silent = true })
+keymap.set("n", "<S-Tab>", ":bprevious<CR>", { desc = "Previous buffer", noremap = true, silent = true })
+
+-- Built-in undotree (0.12)
+keymap.set("n", "<leader>u", "<cmd>Undotree<CR>", { desc = "Undotree" })

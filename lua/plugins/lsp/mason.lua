@@ -1,11 +1,12 @@
-require("mason").setup()
+require("mason").setup({
+	ui = { border = "rounded" },
+})
 
 require("mason-lspconfig").setup({
 	ensure_installed = {
 		"lua_ls",
 		"ts_ls",
 		"jsonls",
-		-- "tsserver",
 		"html",
 		"cssls",
 		"emmet_ls",

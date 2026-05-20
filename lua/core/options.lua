@@ -1,43 +1,51 @@
 vim.cmd("let g:netrw_liststyle = 3")
 
-local opt = vim.opt
+-- Line numbers
+vim.o.relativenumber = true
+vim.o.number = true
 
-opt.relativenumber = true
-opt.number = true
+-- Tabs & indentation
+vim.o.tabstop = 2
+vim.o.shiftwidth = 2
+vim.o.expandtab = true
+vim.o.smartindent = true
 
-opt.tabstop = 2
-opt.shiftwidth = 2
-opt.expandtab = true
-opt.smartindent = true
+-- Line wrapping
+vim.o.wrap = false
 
-opt.wrap = false
+-- Search
+vim.o.ignorecase = true
+vim.o.smartcase = true
 
-opt.ignorecase = true
-opt.smartcase = true
+-- Appearance
+vim.o.cursorline = true
+vim.o.termguicolors = true
+vim.o.background = "dark"
+vim.o.signcolumn = "yes"
 
-opt.cursorline = true
+-- Backspace
+vim.o.backspace = "indent,eol,start"
 
-opt.termguicolors = true
-opt.background = "dark"
-opt.signcolumn = "yes"
+-- Clipboard
+vim.opt.clipboard:append("unnamedplus")
 
-opt.backspace = "indent,eol,start"
+-- Split windows
+vim.o.splitright = true
+vim.o.splitbelow = true
 
-opt.clipboard:append("unnamedplus")
+-- Swap / backup / undo
+vim.o.swapfile = false
+vim.o.backup = false
+vim.o.undodir = os.getenv("HOME") .. "/.vim/undodir"
+vim.o.undofile = true
 
-opt.splitright = true
-opt.splitbelow = true
+-- Scroll
+vim.o.scrolloff = 8
 
-opt.swapfile = false
-
-vim.opt.backup = false
-vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
-vim.opt.undofile = true
-
-opt.scrolloff = 8
-
+-- Folding (treesitter-based)
 vim.o.foldmethod = "expr"
-vim.o.foldexpr = "nvim_treesitter#foldexpr()"
+vim.o.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.o.foldtext = ""
 vim.o.foldlevel = 99
 vim.o.foldlevelstart = 99
 vim.o.foldenable = true

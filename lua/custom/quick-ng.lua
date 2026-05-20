@@ -7,28 +7,20 @@ local function get_component_basename(filepath)
 end
 
 local function switch_to(extension)
-	local current_file = vim.api.nvim_buf_get_name(0)
-	local base = get_component_basename(current_file)
+	local base = get_component_basename(vim.api.nvim_buf_get_name(0))
 	if not base then
 		return
 	end
-
 	local target = base .. "." .. extension
 	if vim.fn.filereadable(target) == 1 then
 		vim.cmd("edit " .. target)
 	else
-		vim.notify("No " .. extension .. " file found for component", vim.log.levels.WARN)
+		vim.notify("No " .. extension .. " file found", vim.log.levels.WARN)
 	end
 end
 
 if is_angular_project() then
-	vim.keymap.set("n", "<leader>ah", function()
-		switch_to("html")
-	end, { desc = "Go to component HTML" })
-	vim.keymap.set("n", "<leader>ac", function()
-		switch_to("css")
-	end, { desc = "Go to component CSS" })
-	vim.keymap.set("n", "<leader>at", function()
-		switch_to("ts")
-	end, { desc = "Go to component TS" })
+	vim.keymap.set("n", "<leader>ah", function() switch_to("html") end, { desc = "Component HTML" })
+	vim.keymap.set("n", "<leader>ac", function() switch_to("css") end, { desc = "Component CSS" })
+	vim.keymap.set("n", "<leader>at", function() switch_to("ts") end, { desc = "Component TS" })
 end

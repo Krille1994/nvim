@@ -11,12 +11,11 @@ return {
 			timeout = 3000,
 			render = "wrapped-compact",
 			top_down = true,
-
 			icons = {
 				ERROR = "󰅚 ",
 				WARN = "󰀪 ",
 				INFO = "󰋽 ",
-				DEBUG = "",
+				DEBUG = "",
 				TRACE = "✎",
 			},
 			on_open = function(win)
@@ -25,46 +24,31 @@ return {
 			end,
 		})
 
+		local links = {
+			INFO = "DiagnosticInfo", WARN = "DiagnosticWarn",
+			ERROR = "DiagnosticError", DEBUG = "DiagnosticHint", TRACE = "DiagnosticHint",
+		}
+
 		local function style_notify()
 			vim.api.nvim_set_hl(0, "NotifyBackground", { link = "NormalFloat" })
-
-			vim.api.nvim_set_hl(0, "NotifyINFOTitle", { link = "DiagnosticInfo" })
-			vim.api.nvim_set_hl(0, "NotifyWARNTitle", { link = "DiagnosticWarn" })
-			vim.api.nvim_set_hl(0, "NotifyERRORTitle", { link = "DiagnosticError" })
-			vim.api.nvim_set_hl(0, "NotifyDEBUGTitle", { link = "DiagnosticHint" })
-			vim.api.nvim_set_hl(0, "NotifyTRACETitle", { link = "DiagnosticHint" })
-
-			vim.api.nvim_set_hl(0, "NotifyINFOIcon", { link = "DiagnosticInfo" })
-			vim.api.nvim_set_hl(0, "NotifyWARNIcon", { link = "DiagnosticWarn" })
-			vim.api.nvim_set_hl(0, "NotifyERRORIcon", { link = "DiagnosticError" })
-			vim.api.nvim_set_hl(0, "NotifyDEBUGIcon", { link = "DiagnosticHint" })
-			vim.api.nvim_set_hl(0, "NotifyTRACEIcon", { link = "DiagnosticHint" })
-
-			vim.api.nvim_set_hl(0, "NotifyINFOBorder", { link = "DiagnosticInfo" })
-			vim.api.nvim_set_hl(0, "NotifyWARNBorder", { link = "DiagnosticWarn" })
-			vim.api.nvim_set_hl(0, "NotifyERRORBorder", { link = "DiagnosticError" })
-			vim.api.nvim_set_hl(0, "NotifyDEBUGBorder", { link = "DiagnosticHint" })
-			vim.api.nvim_set_hl(0, "NotifyTRACEBorder", { link = "DiagnosticHint" })
-
-			vim.api.nvim_set_hl(0, "NotifyINFOBody", { link = "NormalFloat" })
-			vim.api.nvim_set_hl(0, "NotifyWARNBody", { link = "NormalFloat" })
-			vim.api.nvim_set_hl(0, "NotifyERRORBody", { link = "NormalFloat" })
-			vim.api.nvim_set_hl(0, "NotifyDEBUGBody", { link = "NormalFloat" })
-			vim.api.nvim_set_hl(0, "NotifyTRACEBody", { link = "NormalFloat" })
+			for level, hl in pairs(links) do
+				vim.api.nvim_set_hl(0, "Notify" .. level .. "Title", { link = hl })
+				vim.api.nvim_set_hl(0, "Notify" .. level .. "Icon", { link = hl })
+				vim.api.nvim_set_hl(0, "Notify" .. level .. "Border", { link = hl })
+				vim.api.nvim_set_hl(0, "Notify" .. level .. "Body", { link = "NormalFloat" })
+			end
 		end
 
 		style_notify()
-		local group = vim.api.nvim_create_augroup("NotifyHighlights", { clear = true })
 		vim.api.nvim_create_autocmd("ColorScheme", {
-			group = group,
+			group = vim.api.nvim_create_augroup("NotifyHighlights", { clear = true }),
 			callback = style_notify,
 		})
 
 		vim.keymap.set("n", "<leader>md", function()
 			notify.dismiss({ silent = true, pending = true })
-		end, { desc = "Dismiss Notifications" })
-
-		vim.keymap.set("n", "<leader>mh", "<cmd>Notifications<cr>", { desc = "Notification History" })
-		vim.keymap.set("n", "<leader>mc", "<cmd>NotificationsClear<cr>", { desc = "Clear Notification History" })
+		end, { desc = "Dismiss notifications" })
+		vim.keymap.set("n", "<leader>mh", "<cmd>Notifications<CR>", { desc = "Notification history" })
+		vim.keymap.set("n", "<leader>mc", "<cmd>NotificationsClear<CR>", { desc = "Clear notification history" })
 	end,
 }

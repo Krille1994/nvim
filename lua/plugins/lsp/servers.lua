@@ -1,81 +1,74 @@
-local util = require("lspconfig.util")
+-- Server configurations passed to vim.lsp.config().
 
 return {
-  lua_ls = {
-    settings = {
-      Lua = {
-        diagnostics = { globals = { "vim" } },
-        completion = { callSnippet = "Replace" },
-        format = {
-          enable = true,
-          defaultConfig = {
-            indent_style = "space",
-            indent_size = "2",
-          },
-        },
-      },
-    },
-  },
+	lua_ls = {
+		settings = {
+			Lua = {
+				diagnostics = { globals = { "vim" } },
+				completion = { callSnippet = "Replace" },
+				format = {
+					enable = true,
+					defaultConfig = {
+						indent_style = "space",
+						indent_size = "2",
+					},
+				},
+			},
+		},
+	},
 
-  clangd = {
-    cmd = { "clangd", "--enable-config" },
-  },
+	clangd = {
+		cmd = { "clangd", "--enable-config" },
+	},
 
-  angularls = {
-    root_dir = util.root_pattern("angular.json"),
-    filetypes = { "typescript", "html" },
-    on_new_config = function(new_config, new_root_dir)
-      new_config.cmd = {
-        "node",
-        new_root_dir .. "/node_modules/@angular/language-server/bin/ngserver",
-        "--stdio",
-        "--tsProbeLocations",
-        new_root_dir .. "/node_modules",
-        "--ngProbeLocations",
-        new_root_dir .. "/node_modules",
-        "--logToConsole",
-        "--logFile",
-        "/tmp/ng-lsp.log",
-      }
-    end,
-  },
+	angularls = {
+		root_markers = { "angular.json" },
+		filetypes = { "typescript", "html" },
+	},
 
-  -- only loads schemastore if jsonls is used
-  jsonls = function()
-    local schemastore = require("schemastore")
-    return {
-      settings = {
-        json = {
-          schemas = schemastore.json.schemas(),
-          validate = { enable = true },
-        },
-      },
-    }
-  end,
+	jsonls = function()
+		return {
+			settings = {
+				json = {
+					schemas = require("schemastore").json.schemas(),
+					validate = { enable = true },
+				},
+			},
+		}
+	end,
 
-  pyright = {
-    root_markers = { "pyproject.toml", ".git" },
-    settings = {
-      python = {
-        analysis = {
-          autoSearchPaths = true,
-          useLibraryCodeForTypes = true,
-          diagnosticSeverityOverrides = {
-            reportArgumentType = "none",
-            reportAttributeAccessIssue = "none",
-          },
-        },
-      },
-    },
-    on_init = function(client)
-      local root = vim.fs.root(0, { "pyproject.toml", ".git" })
-      if root then
-        local py = root .. "/.venv/bin/python"
-        if vim.fn.executable(py) == 1 then
-          client.config.settings.python.pythonPath = py
-        end
-      end
-    end,
-  },
+	pyright = {
+		root_markers = { "pyproject.toml", ".git" },
+		settings = {
+			python = {
+				analysis = {
+					autoSearchPaths = true,
+					useLibraryCodeForTypes = true,
+					diagnosticSeverityOverrides = {
+						reportArgumentType = "none",
+						reportAttributeAccessIssue = "none",
+					},
+				},
+			},
+		},
+		on_init = function(client)
+			local root = vim.fs.root(0, { "pyproject.toml", ".git" })
+			if root then
+				local py = root .. "/.venv/bin/python"
+				if vim.fn.executable(py) == 1 then
+					client.config.settings.python.pythonPath = py
+				end
+			end
+		end,
+	},
 
+	ts_ls = {},
+	html = {},
+	cssls = {},
+	emmet_ls = {},
+	gopls = {},
+	rust_analyzer = {},
+	omnisharp = {},
+	bashls = {},
+	yamlls = {},
 }
