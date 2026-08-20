@@ -9,4 +9,7 @@ for name, opts in pairs(servers) do
 		opts = opts()
 	end
 	vim.lsp.config(name, opts)
+
+	vim.lsp.enable(name)
 end
+vim.lsp.enable("qmlls", false)

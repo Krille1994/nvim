@@ -61,6 +61,11 @@ return {
 			end
 		end,
 	},
+	qml_language_server = {
+		cmd = { "qml-language-server" },
+		filetypes = { "qml" },
+		root_markers = { { "qmldir", "shell.qml" }, ".git" },
+	},
 
 	ts_ls = {},
 	html = {},
@@ -71,4 +76,5 @@ return {
 	omnisharp = {},
 	bashls = {},
 	yamlls = {},
+	svelte = {},
 }

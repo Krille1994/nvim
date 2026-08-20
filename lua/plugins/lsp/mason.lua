@@ -11,6 +11,7 @@ require("mason-lspconfig").setup({
 		"cssls",
 		"emmet_ls",
 		"angularls",
+		"svelte",
 		"gopls",
 		"rust_analyzer",
 		"clangd",

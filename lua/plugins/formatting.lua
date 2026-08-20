@@ -23,6 +23,7 @@ return {
 				lua = { "stylua" },
 				python = { "isort", "black" },
 				rust = { "rustfmt" },
+				go = { "goimports", "gofumpt" }
 			},
 			format_on_save = function(bufnr)
 				if vim.tbl_contains(exclude, vim.bo[bufnr].filetype) then
